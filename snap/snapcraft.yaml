@@ -1,6 +1,6 @@
 %YAML 1.1
 ---
-# Snapcraft Recipe for [Project]
+# Snapcraft Recipe for Screenkey
 # ------------------------------
 # This file is in the YAML data serialization format:
 # http://yaml.org
@@ -17,30 +17,34 @@
 # All following comments, including this one, are designed to be stripped
 # before contributing the recipe to the upstream
 
-# [Project], my-awesome-app, my-awesome-app-launch
-# are placeholders text meant to be replaced by appropriate content
-name: my-awesome-app
-title: My Awesome App.
-summary: Single-line elevator pitch for your amazing snap under 79 chars.
+name: screenkey
+title: Screenkey - Screencast your keys.
+summary: A screencast tool to display your keys, inspired by Screenflick.
 description: |
-  This is my-awesome-app's description. You have a paragraph or two to tell
-  the most important story about your snap. Keep it under 100 words though,
-  we live in tweetspace and your description wants to look good in the snap
-  store.
+  This is an almost-complete rewrite of [screenkey](https://launchpad.net/screenkey) 0.2, featuring:
 
-  This is the demonstration app of the Snapcrafters Template Plus:
-  https://github.com/Lin-Buo-Ren/snapcrafters-template-plus
+  - Several keyboard translation methods
+  - Key composition/input method support
+  - Configurable font/size/position
+  - Highlighting of recent keystrokes
+  - Improved backspace processing
+  - Normal/Emacs/Mac caps modes
+  - Multi-monitor support
+  - Dynamic recording control
+  - Switch for visible shift and modifier sequences only
+  - Repeats compression
+  - Countless bug fixes
 
 # The path of icon to represent the snap, relative to the source tree directory
 # Only PNG or SVG image is supported, dimension must be greater than 256x256px
-icon: snap/gui/my-awesome-app.png
+icon: snap/gui/screenkey.png
 
 # The license of this application, in SPDX format
 # NOTE: Currently only supports SPDX 2.1 license expressions, as described in Appendix IV of
 # https://spdx.org/spdx-specification-21-web-version
 # Supported expressions:
 # https://github.com/snapcore/snapd/blob/HEAD/spdx/licenses.go
-#license:
+license: GPL-3.0+
 
 # Version string just for humans, typically '1.2+git' or '1.3.2'
 # The wrapping single quotes are often required to avoid the version string
@@ -57,7 +61,7 @@ adopt-info: main
 # Snapd feature set and version the snap requires in order to work
 # https://forum.snapcraft.io/t/snapcraft-top-level-metadata/8334#heading--assumes
 assumes:
-- command-chain
+  - command-chain
 
 # Base runtime
 # The common runtime for the snap to run on, or `bare` for static linked applications
@@ -89,7 +93,7 @@ parts:
     organize:
       '*': patching/
     prime:
-    - -*
+      - -*
 
   # Launcher programs to fix problems at runtime
   launchers:
@@ -98,7 +102,7 @@ parts:
     organize:
       '*': bin/
     stage:
-    - -bin/README.*
+      - -bin/README.*
 
   # Programs to modify the behavior of each step of the snapcraft lifecycles
   scriptlets:
@@ -107,28 +111,7 @@ parts:
     organize:
       '*': scriptlets/
     prime:
-    - -*
-
-  # Stage snap for fixing the glibc locales(and gnu gettext I18N support)
-  # This part is only required for non GUI apps that don't uses the desktop-launch launchers
-  #locales-launch:
-    #plugin: nil
-    #stage-snaps:
-    #- locales-launch
-    #stage-packages:
-    # For localedef(1)
-    #- libc-bin
-
-    # For locale data used by localedef(1)
-    #- locales
-
-    # All pre-generated locale data
-    # DISABLED: Lots of duplicate data will be included in snap when this is staged, unless the target machine has no resource to generate them in runtime otherwise not using it
-    #
-    #   Lack of compiled locales breaks gettext based localisation - snapcraft - snapcraft.io
-    #   https://forum.snapcraft.io/t/lack-of-compiled-locales-breaks-gettext-based-localisation/3758
-    #
-    #- locales-all
+      - -*
 
   # Remote part for support of various desktop technologies
   # Refer: https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml
@@ -139,7 +122,7 @@ parts:
 
     plugin: make
     build-packages:
-    - gcc
+      - gcc
     override-build: |
       snapcraftctl build
       mkdir -pv $SNAPCRAFT_PART_INSTALL/gnome-platform
@@ -149,15 +132,15 @@ parts:
   zenity-integration:
     plugin: nil
     stage-snaps:
-    - zenity-integration
+      - zenity-integration
 
   main:
     after:
-    # for patch-desktop-entries.*
-    - patching
+      # for patch-desktop-entries.*
+      - patching
 
-    # for override-pull script
-    - scriptlets
+      # for override-pull script
+      - scriptlets
 
     source: .
     #source-type:
@@ -173,9 +156,9 @@ parts:
 
     plugin: dump
     organize:
-      my-awesome-app: bin/
+      screenkey: bin/
     stage:
-    - bin/*
+      - bin/*
 
     override-prime: |
       set \
@@ -190,23 +173,23 @@ parts:
 # with `_snap_name_` or `snap run _snap_name_` commands, otherwise it can only be run
 # via `_snap_name_._app_name_` or `snap run _snap_name_._app_name_`
 apps:
-  my-awesome-app:
+  screenkey:
     # The adapter to set up runtime environment at the launch of the snap
     # NOTE: The `command-chain` property is only supported by the `full` adapter
     adapter: full
 
     # An *relative path* to an executable file root from the `prime` directory to be executed, and its command-line arguments
     # NOTE: The right angle bracket at the beginning of the value of the `command` keyword starts a YAML folded style block scalar, refer the following spec document for more info: http://yaml.org/spec/1.2/spec.html#id2796251
-    command: bin/my-awesome-app
+    command: bin/screenkey
 
     # The commands that are run, in order, before running the one specified by the `command` key
     command-chain:
     - bin/desktop-launch
-    - bin/my-awesome-app-launch
+    - bin/screenkey-launch
 
     # If the providing part of the app. has a desktop entry, specify its path relative to the `prime` directory.
     # If the packaging target doesn't provide a desktop entry, ignore the `desktop` key and implement a desktop entry in `/snap/gui`
-    #desktop: share/applications/my-awesome-app.desktop
+    #desktop: share/applications/screenkey.desktop
 
 # Refer the following documentation for asserting interface plugs and slots in a security confined snap:
 # Interface management - doc - snapcraft.io
@@ -256,11 +239,11 @@ plugs:
   #user-wide-configs:
     #interface: personal-files
     #read:
-    #- $HOME/.config/my-awesome-app
+    #- $HOME/.config/screenkey
   #system-wide-configs:
     #interface: system-files
     #read:
-    #- /etc/my-awesome-app
+    #- /etc/screenkey
 
   # Network access
   #network:
