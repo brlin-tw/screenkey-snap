@@ -1,19 +1,17 @@
-# Unofficial Snap Packaging for [Project]
+# Unofficial Snap Packaging for Screenkey
 <!--
 	Use the Staticaly service for easy access to in-repo pictures:
 	https://www.staticaly.com/
 -->
-![(Placeholder) Icon of [Project]](https://cdn.staticaly.com/gh/Lin-Buo-Ren/snapcrafters-template-plus/bea3bc56/snap/gui/my-awesome-app.png "(Placeholder) Icon of [Project]")
+![Logo of Screenkey](https://cdn.statically.io/gh/Lin-Buo-Ren/screenkey-snap/af195bf/snap/gui/screenkey-logo.png "Icon of Screenkey")
 
-**This is the unofficial snap for [Project]**, *"Single-line elevator pitch for your amazing snap"*. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.
+**This is the unofficial snap for Screenkey**, *"A screencast tool to display your keys inspired by Screenflick"*. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.
 
 <!-- Uncomment and modify this when you are provided a build status badge
-[![Build Status Badge of the `my-awesome-app` Snap](https://build.snapcraft.io/badge/_repo_owner_id_/_repo_name_id_.svg "Build Status of the `my-awesome-app` snap")](https://build.snapcraft.io/user/_repo_owner_id_/_repo_name_id_)
+[![Build Status Badge of the `my-awesome-app` Snap](https://build.snapcraft.io/badge/Lin-Buo-Ren/screenkey-snap.svg "Build Status of the `my-awesome-app` snap")](https://build.snapcraft.io/user/Lin-Buo-Ren/screenkey-snap)
 -->
 
-<!-- Uncomment and modify this when you have a screenshot
-![Screenshot of the Snapped Application](local/screenshots/screenshot.png "Screenshot of the Snapped Application")
--->
+![Screenshot of the Snapped Application](local/screenshots/screenshot-regular-usage.png "Screenshot of the Snapped Application")
 
 Published for <img src="http://anything.codes/slack-emoji-for-techies/emoji/tux.png" align="top" width="24" /> with 💝 by Snapcrafters
 
@@ -43,18 +41,15 @@ Published for <img src="http://anything.codes/slack-emoji-for-techies/emoji/tux.
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-black.svg)](https://snapcraft.io/my-awesome-app)
 -->
 
-<!-- Uncomment when you have test results
 ## What is Working
-* [A list of functionallities that are verified working]
+* Display regular keystrokes
+* Display keystrokes for Multimedia and Function keys
 
 ## What is NOT Working...yet 
-Check out the [issue tracker](https://github.com/_repo_owner_id_/_repo_name_id_/issues) for known issues.
--->
+Check out the [issue tracker](https://github.com/Lin-Buo-Ren/screenkey-snap/issues) for known issues.
 
-<!-- Uncomment when you have initialized the URLs
 ## Support
 * Report issues regarding using this snap to the issue tracker:  
-  <https://github.com/_repo_owner_id_/_repo_name_id_/issues>
+  <https://github.com/Lin-Buo-Ren/screenkey-snap/issues>
 * You may also post on the Snapcraft Forum, under the `snap` topic category:  
   <https://forum.snapcraft.io/c/snap>
--->
