@@ -212,7 +212,6 @@ apps:
 
     # The commands that are run, in order, before running the one specified by the `command` key
     command-chain:
-      - bin/desktop-launch
       - bin/screenkey-launch
 
     # If the providing part of the app. has a desktop entry, specify its path relative to the `prime` directory.
