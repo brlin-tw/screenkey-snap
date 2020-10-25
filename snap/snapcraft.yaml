@@ -104,15 +104,6 @@ parts:
     stage:
       - -bin/README.*
 
-  # Programs to modify the behavior of each step of the snapcraft lifecycles
-  # scriptlets:
-  #   source: snap/local/scriptlets
-  #   plugin: dump
-  #   organize:
-  #     '*': scriptlets/
-  #   prime:
-  #     - -*
-
   # Integrate custom dialogs in your snap - doc - snapcraft.io
   # https://forum.snapcraft.io/t/integrate-custom-dialogs-in-your-snap/10825
   zenity-integration:
@@ -131,11 +122,7 @@ parts:
       - curl
       - jq
       - sed
-
-      # Uncomment the VCS your main part is using
-      #- git
-      #- mercurial
-      #- subversion
+      - git
     stage:
       - scriptlets/selective-checkout
     prime:
@@ -254,21 +241,3 @@ plugs:
   # Regular files access
   #home:
   #removable-media: # Non-A/C
-
-  # Application-specific files access
-  # The auto-connection requires store grant
-  # https://forum.snapcraft.io/t/the-personal-files-interface/9357
-  # https://forum.snapcraft.io/t/the-system-files-interface/9358
-  #user-wide-configs:
-    #interface: personal-files
-    #read:
-    #- $HOME/.config/screenkey
-  #system-wide-configs:
-    #interface: system-files
-    #read:
-    #- /etc/screenkey
-
-  # Network access
-  #network:
-
-#slots:
