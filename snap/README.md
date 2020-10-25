@@ -3,7 +3,7 @@
 	Use the Staticaly service for easy access to in-repo pictures:
 	https://www.staticaly.com/
 -->
-![Logo of Screenkey](https://cdn.statically.io/gh/Lin-Buo-Ren/screenkey-snap/af195bf/snap/gui/screenkey-logo.png "Icon of Screenkey")
+![Logo of Screenkey](https://cdn.statically.io/gh/Lin-Buo-Ren/screenkey-snap/e2e65dd/snap/gui/screenkey-logo.png "Icon of Screenkey")
 
 **This is the unofficial snap for Screenkey**, *"A screencast tool to display your keys inspired by Screenflick"*. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.
 
