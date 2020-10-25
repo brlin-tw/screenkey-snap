@@ -3,6 +3,10 @@ This folder holds the graphical assets of the snap, including but not limited to
 
 The entire content of this folder will be copied to the `meta/gui` directory under the `prime` folder by snapcraft after the prime step.
 
+## Asset credits
+### screenkey-log.*
+Source: preferences-desktop-keyboard-shortcuts.svg from the Humanity icon theme
+
 ## Icon for Representing a Snap
 For third-party packaging where the packaging recipe is separated from the packaging target's source tree, make a copy of the packaging target's PNG/SVG icon here and specify it in snapcraft.yaml file using the `icon` key to specify it as the snap's icon displayed in the Snap Store.
 

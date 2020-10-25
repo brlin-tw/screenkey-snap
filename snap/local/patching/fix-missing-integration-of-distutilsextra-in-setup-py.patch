@@ -1,0 +1,19 @@
+diff --git a/setup.py b/setup.py
+index b4f909f..c1db34a 100755
+--- a/setup.py
++++ b/setup.py
+@@ -1,5 +1,6 @@
+ #!/usr/bin/env python3
+ from setuptools import setup
++from DistUtilsExtra.command import *
+ 
+ setup(name='screenkey', version='1.2',
+       description='A screencast tool to display keys',
+@@ -34,4 +35,7 @@ setup(name='screenkey', version='1.2',
+       install_requires=['PyGObject', 'pycairo'],
+       data_files=[('share/applications', ['data/screenkey.desktop']),
+                   ('share/doc/screenkey', ['README.rst', 'NEWS.rst'])],
++      cmdclass = { "build" : build_extra.build_extra,
++                   "build_i18n" :  build_i18n.build_i18n }
++
+ )

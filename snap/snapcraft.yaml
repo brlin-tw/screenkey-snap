@@ -37,7 +37,7 @@ description: |
 
 # The path of icon to represent the snap, relative to the source tree directory
 # Only PNG or SVG image is supported, dimension must be greater than 256x256px
-icon: snap/gui/screenkey.png
+icon: snap/gui/screenkey-logo.svg
 
 # The license of this application, in SPDX format
 # NOTE: Currently only supports SPDX 2.1 license expressions, as described in Appendix IV of
@@ -105,27 +105,13 @@ parts:
       - -bin/README.*
 
   # Programs to modify the behavior of each step of the snapcraft lifecycles
-  scriptlets:
-    source: snap/local/scriptlets
-    plugin: dump
-    organize:
-      '*': scriptlets/
-    prime:
-      - -*
-
-  # Remote part for support of various desktop technologies
-  # Refer: https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml
-  desktop-gnome-platform:
-    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-    source-depth: 1
-    source-subdir: gtk
-
-    plugin: make
-    build-packages:
-      - gcc
-    override-build: |
-      snapcraftctl build
-      mkdir -pv $SNAPCRAFT_PART_INSTALL/gnome-platform
+  # scriptlets:
+  #   source: snap/local/scriptlets
+  #   plugin: dump
+  #   organize:
+  #     '*': scriptlets/
+  #   prime:
+  #     - -*
 
   # Integrate custom dialogs in your snap - doc - snapcraft.io
   # https://forum.snapcraft.io/t/integrate-custom-dialogs-in-your-snap/10825
@@ -134,39 +120,94 @@ parts:
     stage-snaps:
       - zenity-integration
 
+  # Check out the tagged release revision if it isn't promoted to the stable channel
+  # https://forum.snapcraft.io/t/selective-checkout-check-out-the-tagged-release-revision-if-it-isnt-promoted-to-the-stable-channel/10617
+  selective-checkout:
+    source: https://github.com/Lin-Buo-Ren/selective-checkout.git
+    source-tag: v2.0.2
+    plugin: dump
+    build-packages:
+      # Scriptlet dependencies
+      - curl
+      - jq
+      - sed
+
+      # Uncomment the VCS your main part is using
+      #- git
+      #- mercurial
+      #- subversion
+    stage:
+      - scriptlets/selective-checkout
+    prime:
+      - -*
+
   main:
     after:
-      # for patch-desktop-entries.*
       - patching
+      - selective-checkout
 
-      # for override-pull script
-      - scriptlets
-
-    source: .
-    #source-type:
-    #source-branch:
-    #source-tag:
-    #source-depth:
+    source: https://gitlab.com/screenkey/screenkey.git
+    source-depth: 100
     override-pull: |
       set -o nounset
 
       snapcraftctl pull
 
-      "${SNAPCRAFT_STAGE}"/scriptlets/main-adopt-info
+      "${SNAPCRAFT_STAGE}"/scriptlets/selective-checkout \
+        --append-packaging-revision \
+        --stable-tag-pattern='^v'
 
-    plugin: dump
-    organize:
-      screenkey: bin/
-    stage:
-      - bin/*
+    plugin: python
+    build-packages:
+      - libcairo2-dev
+      - libgirepository1.0-dev
+      - pkg-config
+    # TODO: Remove build dependencies after build
+    python-packages:
+      - https://salsa.debian.org/python-team/packages/python-distutils-extra/-/archive/2.45/python-distutils-extra-2.45.tar.gz
+      #- https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distutils-extra-2.39.tar.gz
+      - PyGObject
+      - Pycairo
+      #- setuptools
+      #- wheel
+    stage-packages:
+      - fonts-font-awesome
+      - gir1.2-appindicator3-0.1
+      # - libx11-6
+      # - libxtst6
+      - slop
+    override-build: |
+      set \
+        -o nounset
 
+      patch \
+        --strip=1 \
+        < "${SNAPCRAFT_STAGE}"/patching/fix-missing-integration-of-distutilsextra-in-setup-py.patch
+      patch \
+        --strip=1 \
+        < "${SNAPCRAFT_STAGE}"/patching/disable-i18n-for-now.patch
+
+      snapcraftctl build
+    prime:
+      - -lib/python*/site-packages/DistUtilsExtra/
+      - -lib/python*/site-packages/_distutils_hack/
+      - -lib/python*/site-packages/distutils-precedence.pth
+      - -lib/python*/site-packages/easy_install.py
+      - -lib/python*/site-packages/pip/
+      - -lib/python*/site-packages/pip-*.dist-info/
+      - -lib/python*/site-packages/pkg_resources
+      - -lib/python*/site-packages/python_distutils_extra-*.dist-info/
+      - -lib/python*/site-packages/setuptools/
+      - -lib/python*/site-packages/setuptools-*.dist-info/
+      - -lib/python*/site-packages/wheel/
+      - -lib/python*/site-packages/wheel-*.dist-info/
     override-prime: |
       set \
         -o nounset
 
-      snapcraftctl prime
+        snapcraftctl prime
 
-      "${SNAPCRAFT_STAGE}"/patching/patch-desktop-entries.bash
+        "${SNAPCRAFT_STAGE}"/patching/patch-desktop-entries.bash
 
 # Apps that are exposed by the snap package
 # If the _app_name_ is identical with the _snap_name_ it can be directly run
@@ -184,12 +225,15 @@ apps:
 
     # The commands that are run, in order, before running the one specified by the `command` key
     command-chain:
-    - bin/desktop-launch
-    - bin/screenkey-launch
+      - bin/desktop-launch
+      - bin/screenkey-launch
 
     # If the providing part of the app. has a desktop entry, specify its path relative to the `prime` directory.
     # If the packaging target doesn't provide a desktop entry, ignore the `desktop` key and implement a desktop entry in `/snap/gui`
-    #desktop: share/applications/screenkey.desktop
+    desktop: share/applications/screenkey.desktop
+
+    extensions:
+      - gnome-3-28
 
 # Refer the following documentation for asserting interface plugs and slots in a security confined snap:
 # Interface management - doc - snapcraft.io
@@ -204,29 +248,6 @@ plugs:
   desktop-legacy:
   unity7:
   wayland:
-
-  # GNOME and Gtk runtime via content sharing
-  # https://forum.snapcraft.io/t/desktop-app-support-gtk/6834
-  gnome-3-28-1804:
-    interface: content
-    target: $SNAP/gnome-platform
-    default-provider: gnome-3-28-1804
-
-  # Gtk Common Themes support
-  # https://forum.snapcraft.io/t/how-to-use-the-system-gtk-theme-via-the-gtk-common-themes-snap/6235
-  gsettings:
-  gtk-3-themes:
-    interface: content
-    target: $SNAP/data-dir/themes
-    default-provider: gtk-common-themes
-  icon-themes:
-    interface: content
-    target: $SNAP/data-dir/icons
-    default-provider: gtk-common-themes
-  sound-themes:
-    interface: content
-    target: $SNAP/data-dir/sounds
-    default-provider: gtk-common-themes
 
   # Regular files access
   #home:

@@ -1,0 +1,9 @@
+diff --git a/setup.cfg b/setup.cfg
+index d248ca4..e6eff6d 100644
+--- a/setup.cfg
++++ b/setup.cfg
+@@ -1,2 +1,2 @@
+-[build]
++#[build]
+-i18n=True
++#i18n=True
