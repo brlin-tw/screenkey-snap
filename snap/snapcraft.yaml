@@ -235,7 +235,3 @@ plugs:
   desktop-legacy:
   unity7:
   wayland:
-
-  # Regular files access
-  #home:
-  #removable-media: # Non-A/C
