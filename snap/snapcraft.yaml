@@ -188,19 +188,24 @@ parts:
         < "${SNAPCRAFT_STAGE}"/patching/disable-i18n-for-now.patch
 
       snapcraftctl build
-    prime:
-      - -lib/python*/site-packages/DistUtilsExtra/
-      - -lib/python*/site-packages/_distutils_hack/
-      - -lib/python*/site-packages/distutils-precedence.pth
-      - -lib/python*/site-packages/easy_install.py
-      - -lib/python*/site-packages/pip/
-      - -lib/python*/site-packages/pip-*.dist-info/
-      - -lib/python*/site-packages/pkg_resources
-      - -lib/python*/site-packages/python_distutils_extra-*.dist-info/
-      - -lib/python*/site-packages/setuptools/
-      - -lib/python*/site-packages/setuptools-*.dist-info/
-      - -lib/python*/site-packages/wheel/
-      - -lib/python*/site-packages/wheel-*.dist-info/
+
+      PATH="${SNAPCRAFT_PART_INSTALL}"/bin:"${PATH}" \
+        PYTHONUSERBASE="${SNAPCRAFT_PART_INSTALL}" \
+        pip \
+          uninstall \
+          --disable-pip-version-check \
+          --yes \
+          python-distutils-extra \
+          setuptools \
+          wheel
+      PATH="${SNAPCRAFT_PART_INSTALL}"/bin:"${PATH}" \
+        PYTHONUSERBASE="${SNAPCRAFT_PART_INSTALL}" \
+        pip \
+          uninstall \
+          --disable-pip-version-check \
+          --yes \
+          pip
+
     override-prime: |
       set \
         -o nounset
