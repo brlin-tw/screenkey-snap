@@ -155,8 +155,6 @@ parts:
       #- https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distutils-extra-2.39.tar.gz
       - PyGObject
       - Pycairo
-      #- setuptools
-      #- wheel
     stage-packages:
       - fonts-font-awesome
       - slop
