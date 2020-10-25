@@ -159,9 +159,7 @@ parts:
 
     plugin: python
     build-packages:
-      - libcairo2-dev
-      - libgirepository1.0-dev
-      - pkg-config
+      - intltool-update
     # TODO: Remove build dependencies after build
     python-packages:
       - https://salsa.debian.org/python-team/packages/python-distutils-extra/-/archive/2.45/python-distutils-extra-2.45.tar.gz
