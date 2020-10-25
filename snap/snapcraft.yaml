@@ -150,7 +150,6 @@ parts:
     build-packages:
       - intltool
       - libgirepository1.0-dev
-    # TODO: Remove build dependencies after build
     python-packages:
       - https://salsa.debian.org/python-team/packages/python-distutils-extra/-/archive/2.45/python-distutils-extra-2.45.tar.gz
       #- https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distutils-extra-2.39.tar.gz
