@@ -221,17 +221,3 @@ apps:
 
     extensions:
       - gnome-3-28
-
-# Refer the following documentation for asserting interface plugs and slots in a security confined snap:
-# Interface management - doc - snapcraft.io
-# https://docs.snapcraft.io/interface-management/6154
-# Supported interfaces - doc - snapcraft.io
-# https://docs.snapcraft.io/supported-interfaces/7744
-# Non-A/C: Non-autoconnect interface
-plugs:
-  # Common desktop interfaces
-  # https://forum.snapcraft.io/t/the-desktop-interfaces/2042
-  desktop:
-  desktop-legacy:
-  unity7:
-  wayland:
