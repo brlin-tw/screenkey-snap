@@ -158,6 +158,8 @@ parts:
         --stable-tag-pattern='^v'
 
     plugin: python
+    build-snaps:
+      - gnome-3-28-1804-sdk/latest/edge
     build-packages:
       - intltool-update
     # TODO: Remove build dependencies after build
@@ -170,9 +172,6 @@ parts:
       #- wheel
     stage-packages:
       - fonts-font-awesome
-      - gir1.2-appindicator3-0.1
-      # - libx11-6
-      # - libxtst6
       - slop
     override-build: |
       set \
