@@ -80,6 +80,12 @@ confinement: strict
 # snaps can be promoted to `candidate` and `stable` channels
 grade: stable
 
+# FIXME: gnome-runtime-sdk snap is only available with amd64/i386 · Issue #2 · Lin-Buo-Ren/screenkey-snap
+# https://github.com/Lin-Buo-Ren/screenkey-snap/issues/2
+architectures:
+  - build-on: amd64
+  - build-on: i386
+
 # Run `snapcraft help sources` for supported keywords on pulling a part's source ingredients
 # Run `snapcraft plugins` for supported build helper plugins
 # Run `snapcraft help plugins` for supported keywords on building a part
